@@ -1,4 +1,4 @@
-request,
-pandas,
-streamlit,
+requests
+pandas
+streamlit
 plotly
