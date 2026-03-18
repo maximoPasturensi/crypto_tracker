@@ -1,8 +1,13 @@
 name: Update Crypto Prices
+
 on:
   schedule:
-    - cron: '0 * * * *' # Corre cada hora
-  workflow_dispatch: # Permite correrlo a mano
+    - cron: '0 * * * *' # Corre cada hora en punto
+  workflow_dispatch:      # Botón para correrlo a mano desde GitHub
+
+# ESTO ES LO QUE FALTABA:
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -10,18 +15,22 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+
       - name: Install dependencies
         run: pip install requests pandas
+
       - name: Run ETL
         run: python etl_script.py
+
       - name: Commit and Push changes
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add crypto_data.db
-          git commit -m "Update prices [skip ci]" || exit 0
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add crypto_data.db crypto_etl.log
+          git commit -m "Auto-update: precios actualizados [skip ci]" || exit 0
           git push
