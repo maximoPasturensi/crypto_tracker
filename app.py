@@ -59,17 +59,28 @@ if not df.empty:
     # Como solo tenemos puntos de precio por tiempo, simulamos las velas 
     # (En un proyecto real usarías Open, High, Low, Close)
     st.subheader(f"📈 Análisis Técnico: {selected_coin.upper()}")
-    
-    fig = go.Figure(data=[go.Candlestick(
-        x=coin_df['timestamp'],
-        open=coin_df['current_price'], # Simplificado para este ejemplo
-        high=coin_df['high_24h'],      # <--- REAL
-        low=coin_df['low_24h'],        # <--- REAL
-        close=coin_df['current_price']
-    )])
-    
-    fig.update_layout(template="plotly_dark", xaxis_rangeslider_visible=False, height=450)
-    st.plotly_chart(fig, use_container_width=True)
+    if not coin_df.empty:
+        fig = go.Figure(data=[go.Candlestick(
+            x=coin_df['timestamp'],
+            open=coin_df['current_price'], # Simplificado para este ejemplo
+            high=coin_df['high_24h'],      # <--- REAL
+            low=coin_df['low_24h'],        # <--- REAL
+            close=coin_df['current_price'],
+            increasing_line_color='#26a69a', # Verde TradingView
+            decreasing_line_color='#ef5350'  # Rojo TradingView
+        )])
+        # Configuramos el diseño antes de mostrarlo
+        fig.update_layout(
+        template="plotly_dark", 
+        xaxis_rangeslider_visible=False, 
+        height=450,
+        margin=dict(l=20, r=20, t=20, b=20)
+        )
+
+        # Lo mostramos una sola vez
+        st.plotly_chart(fig, use_container_width=True)
+    else:
+        st.warning("Aún no hay datos históricos suficientes en la base de datos para generar las velas.")
 
     # 5. COMPARATIVA DE MERCADO
     st.subheader("🚀 Comparativa de Market Cap")
