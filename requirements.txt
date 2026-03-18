@@ -1,5 +1,5 @@
 requests
 pandas
-streamlit
+streamlit>=1.22.0
 plotly
 altair==4.2.2
