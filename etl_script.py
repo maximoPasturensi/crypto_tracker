@@ -69,17 +69,17 @@ class CryptoETL:
         
         try:
             logger.info("Iniciando transformación de datos...")
-            # Seleccionamos solo las columnas útiles.
+            
+            # --- CAMBIO AQUÍ: Agregamos high_24h y low_24h a la lista de columnas ---
             df = pd.DataFrame(raw_data)[[
-                'id', 'symbol', 'current_price', 'market_cap', 
-                'total_volume', 'price_change_percentage_24h'
+                'id', 'symbol', 'current_price', 'high_24h', 'low_24h',
+                'market_cap', 'total_volume', 'price_change_percentage_24h'
             ]]
             
             # Agregamos la marca de tiempo exacta de la ingesta.
             df['timestamp'] = datetime.now()
             
             # --- AGREGAMOS VALOR (Análisis) ---
-            # Creamos una métrica de volatilidad rápida basada en el cambio de 24h.
             def classify_volatility(change):
                 if change > 5: return 'High Positive'
                 if change < -5: return 'High Negative'

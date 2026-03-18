@@ -63,10 +63,9 @@ if not df.empty:
     fig = go.Figure(data=[go.Candlestick(
         x=coin_df['timestamp'],
         open=coin_df['current_price'], # Simplificado para este ejemplo
-        high=coin_df['current_price'] * 1.002, 
-        low=coin_df['current_price'] * 0.998,
-        close=coin_df['current_price'],
-        name="Market Price"
+        high=coin_df['high_24h'],      # <--- REAL
+        low=coin_df['low_24h'],        # <--- REAL
+        close=coin_df['current_price']
     )])
     
     fig.update_layout(template="plotly_dark", xaxis_rangeslider_visible=False, height=450)
