@@ -53,7 +53,7 @@ if not df.empty:
     col3.metric("Volatilidad", last_entry['volatility_label'])
     col4.metric("Volumen Total", f"${last_entry['total_volume']:,.0f}")
 
-    st.divider()
+    st.markdown("---")
 
     # 4. GRÁFICO DE VELAS (Candlestick) - Nivel Senior
     # Como solo tenemos puntos de precio por tiempo, simulamos las velas 
